@@ -13,8 +13,35 @@ try:
 
     cursor = connection.cursor()
 
-    # таблица создана, повторный вызов кода выдаст ошибку
-    # create_table_students = '''
+    insert_students: str = '''
+    INSERT INTO students (first_name, second_name, age, course)
+    VALUES (%s, %s, %s, %s);
+    '''
+    #
+    #   # Данные для вставки
+    students_data = [   # ввод данных студентов
+        ('Юлия', 'Попова', '25', '4'),
+        ('Степан', 'Яковлев', '17', '1'),
+        ('Елена', 'Сидорова', '23', '5')
+    ]
+    cursor.executemany(insert_students, students_data)  # Выполнение запроса с параметрами
+    connection.commit()  # Подтверждение изменений
+    print("Список студентов успешно добавлен в таблицу 'students'")
+
+
+except Exception as error:
+    print("Ошибка при подключении к Базе данных", error)
+
+finally:
+    # Закрытие соединения
+    if connection:
+        connection.close()
+        print("Соединение с PostgreSQL закрыто")
+
+
+
+# # таблица создана, повторный вызов кода выдаст ошибку
+# create_table_students = '''
     # CREATE TABLE students(
     #     id SERIAL PRIMARY KEY,
     #     first_name VARCHAR(100) NOT NULL,
@@ -26,15 +53,15 @@ try:
     # cursor.execute(create_table_students)
     # connection.commit()
     # print("Таблица 'employees' успешно создана")
-
-    # Добавить данные в пустую Базу данных (Данные добавлены. Повторное добавление приведет к ошибке)
-
+    #
+    # # Добавить данные в пустую Базу данных (Данные добавлены. Повторное добавление приведет к ошибке)
+    #
     # insert_students: str = '''
     # INSERT INTO students (first_name, second_name, age, course)
     # VALUES (%s, %s, %s, %s);
     # '''
-    #
-    #   # Данные для вставки
+    # #
+    # #   # Данные для вставки
     # students_data = [   # ввод данных студентов
     #     ('Наталья', 'Сидорова', '21', '1'),
     #     ('Иван', 'Коротков', '22', '2'),
@@ -44,70 +71,63 @@ try:
     # connection.commit()  # Подтверждение изменений
     # print("Данные успешно добавлены в таблицу 'students'")
 
+# def student_list():
+#             select_query = '''SELECT * FROM students;'''
+#
+#             cursor.execute(select_query)  # Выполнение запроса с параметром
+#             records = cursor.fetchall()  # Извлечение записей
+#
+#             print("Данные о студентах:")
+#             for row in records:
+#                 print(row)  # Печать каждой записи
+#
+# def update_bd():
+#         pass
+#
+# def add_student():
+#         pass
+#
+# def delete_student():
+#         pass
+#
+#
+#
+# def main():
+#         while True:
+#             choice = int(input("\nВыберите действие (0-5): "))
+#             print("\n1. Добавить студента в базу данных")
+#             print("2. Просмотреть список студентов")
+#             print("3. Изменить/обновить данные студента")
+#             print("4. Удалить студента из базы данных")
+#             print("5. Выход")
+#
+#             if choice == 1:
+#                 students_data = input(
+#                     str(input("Имя: ")),
+#                     str(input("Фамилия: ")),
+#                     int(input("Возраст: ")),
+#                     int(input("Курс: "))
+#                 )
+#                 add_student()
+#                 print(f"Студент добавлен в базу данных")
+#             elif choice == 2:
+#                 student_list()
+#
+#             elif choice == 3:
+#                 pass
+#             elif choice == 4:
+#                 pass
+#             elif choice == 5:
+#                 print("Программа завершена")
+#                 break
+#             else:
+#                 print("Неверный выбор. Пожалуйста, выберите действие от 0 до 5")
+#
+# if name == "main":
+#     main()
 
-    def student_list():
-        select_query = '''SELECT * FROM students;'''
-
-        cursor.execute(select_query)  # Выполнение запроса с параметром
-        records = cursor.fetchall()  # Извлечение записей
-
-        print("Данные о студентах:")
-        for row in records:
-            print(row)  # Печать каждой записи
-
-    def update_bd():
-        pass
-
-    def add_student():
-        pass
-
-    def delete_student():
-        pass
 
 
-    def main():
-        while True:
-            choice = int(input("\nВыберите действие (0-5): "))
-            print("\n1. Добавить студента в базу данных")
-            print("2. Просмотреть список студентов")
-            print("3. Изменить/обновить данные студента")
-            print("4. Удалить студента из базы данных")
-            print("5. Выход")
-
-            if choice == 1:
-                students_data = input(
-                    str(input("Имя: ")),
-                    str(input("Фамилия: ")),
-                    int(input("Возраст: ")),
-                    int(input("Курс: "))
-                )
-                add_student()
-                print(f"Студент добавлен в базу данных")
-            elif choice == 2:
-                pass
-
-            elif choice == 3:
-                pass
-            elif choice == 4:
-                pass
-            elif choice == 5:
-                print("Программа завершена")
-                break
-            else:
-                print("Неверный выбор. Пожалуйста, выберите действие от 0 до 5")
-
-    if name == "main":
-        main()
-
-
-except Exception as error:
-    print("Ошибка при подключении к Базе данных", error)
-
-finally:
-    # Закрытие соединения
-    if connection:
-        connection.close()
-        print("Соединение с PostgreSQL закрыто")
 #
 #
 #     def update_data():# Обновление данных
