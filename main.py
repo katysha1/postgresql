@@ -1,3 +1,5 @@
+from idlelib.window import register_callback
+
 import psycopg2
 
 try:
@@ -13,32 +15,20 @@ try:
 
     cursor = connection.cursor()
 
-    insert_students: str = '''
-    INSERT INTO students (first_name, second_name, age, course)
-    VALUES (%s, %s, %s, %s);
-    '''
+    # insert_students: str = '''
+    # INSERT INTO students (first_name, second_name, age, course)
+    # VALUES (%s, %s, %s, %s);
+    # '''
     #
     #   # Данные для вставки
-    students_data = [   # ввод данных студентов
-        ('Юлия', 'Попова', '25', '4'),
-        ('Степан', 'Яковлев', '17', '1'),
-        ('Елена', 'Сидорова', '23', '5')
-    ]
-    cursor.executemany(insert_students, students_data)  # Выполнение запроса с параметрами
-    connection.commit()  # Подтверждение изменений
-    print("Список студентов успешно добавлен в таблицу 'students'")
-
-
-except Exception as error:
-    print("Ошибка при подключении к Базе данных", error)
-
-finally:
-    # Закрытие соединения
-    if connection:
-        connection.close()
-        print("Соединение с PostgreSQL закрыто")
-
-
+    # students_data = [   # ввод данных студентов
+    #     ('Юлия', 'Попова', '25', '4'),
+    #     ('Степан', 'Яковлев', '17', '1'),
+    #     ('Елена', 'Сидорова', '23', '5')
+    # ]
+    # cursor.executemany(insert_students, students_data)  # Выполнение запроса с параметрами
+    # connection.commit()  # Подтверждение изменений
+    # print("Список студентов успешно добавлен в таблицу 'students'")
 
 # # таблица создана, повторный вызов кода выдаст ошибку
 # create_table_students = '''
@@ -70,6 +60,28 @@ finally:
     # cursor.execute(insert_students, students_data)  # Выполнение запроса с параметрами
     # connection.commit()  # Подтверждение изменений
     # print("Данные успешно добавлены в таблицу 'students'")
+
+# вывод списка студентов
+    select_query = '''SELECT * FROM students;'''
+    cursor.execute(select_query)  # Выполнение запроса с параметром
+    records = cursor.fetchall()  # Извлечение записей
+
+    print("Данные о студентах:")
+    for s in records:
+        print(f'{s[0]}. {s[1]} {s[2]} курс {s[4]}, возраст {s[3]}')
+
+
+except Exception as error:
+    print("Ошибка при подключении к Базе данных", error)
+
+finally:
+    # Закрытие соединения
+    if connection:
+        connection.close()
+        print("Соединение с PostgreSQL закрыто")
+
+
+
 
 # def student_list():
 #             select_query = '''SELECT * FROM students;'''
